@@ -1,0 +1,15 @@
+.okvirProfila {
+    height: 100vh;
+    margin-bottom: 5px;
+}
+
+.elementi {
+    margin-top: 20px;
+    height: 50vh;
+}
+
+.infoBox {
+    padding-top: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+}

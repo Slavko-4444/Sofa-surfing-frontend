@@ -1,0 +1,47 @@
+<div class="alert alert-danger m-4" role="alert" *ngIf="!isLoggined; else Ulogovan">
+    Please, sign in first!
+</div>
+<ng-template #Ulogovan>
+    <div class="overflow-auto container-fluid okvirProfila">
+        <div class="spinner-border text-primary" role="status" style="margin-top: 100px; margin-left: 50%;" *ngIf="isloading">
+            <span class="sr-only">Loading...</span>
+        </div>
+
+     <div class="shadow p-3 mb-5 bg-white rounded container  row elementi" *ngIf="!isloading">
+        <div class="row">
+            <div class="d-flex justify-content-between text-success h2  infoBox">
+                <p>User informations</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-flex justify-content-between text-primary h4 infoBox">
+                <p>Surname</p>
+                <p> {{profile.surname}} </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-flex justify-content-between h4 infoBox">
+                <p>Forename</p>
+                <p> {{profile.forename}} </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-flex justify-content-between h2 infoBox">
+                <p>Email</p>
+                <p> {{profile.email}} </p>
+            </div>
+        </div>
+     </div>
+
+     <div class="pozivi_metoda row">
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-info" (click)="addProfilePost()">New post</button>
+            <button type="button" class="btn btn-warning" style="margin-left: 5px;" (click)="seeProfilePosts()">See posts</button>
+        </div>
+
+        <app-user-posts *ngIf="seePosts"></app-user-posts>
+        <app-user-add-post *ngIf="addPost"></app-user-add-post>
+     </div>
+
+    </div>
+</ng-template>

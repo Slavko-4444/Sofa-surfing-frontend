@@ -1,0 +1,35 @@
+<div class="flex-grow-1 mb-3 okvirGlavni"> 
+    <form [formGroup]="postForm" (ngSubmit)="submitPostForm(postForm.value)">
+        <div class="form-group reg-group">
+            <label for="nm">Title:</label>
+            <input input="text" name="title" id="nm" class="form-control"  formControlName="title"/>
+        </div> 
+        <p class="error-message" *ngIf="title?.errors?.['required']">Title is necessary!</p>
+         
+        <div class="form-group">
+            <label for="ex">Short description:</label>
+            <input input="text" name="excerpt" id="ex" class="form-control" formControlName="excerpt"/>
+        </div>
+        <p class="error-message" *ngIf="excerpt?.errors?.['required']">Short info-post is necessary!</p>
+        <div class="form-group">
+            <label for="fn">Description:</label>
+            <textarea class="form-control" id="fn" rows="3" formControlName="forename"></textarea>
+        </div>
+        <p class="error-message" *ngIf="description?.errors?.['required']">Text is required!</p>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Options</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01" formControlName="status">
+              <option selected>Choose...</option>
+              <option value="visible">Visible</option>
+              <option value="hidden">Hidden</option>
+            </select>
+          </div>
+       
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary" [disabled]="!postForm.valid">Submit</button>
+        </div>
+    </form>
+</div>
