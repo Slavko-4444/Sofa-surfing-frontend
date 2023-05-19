@@ -9,6 +9,7 @@ import { UserInfo } from 'src/app/models/profile/user.info';
 import { RecivingRefToken } from 'src/app/models/receive/refresh.token';
 import { PostView } from 'src/app/models/profile/view.post';
 import { EditArticle } from 'src/app/models/profile/edit.article';
+import { AddArticle } from 'src/app/models/profile/add.article';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +21,37 @@ export class ProfileService {
   public InfoProfile!: Observable<UserInfo>;
   public userInfo!: Observable<LoginUserDTO>;
 
+
   constructor(private http: HttpClient) { }
   
   
-  
+  public addPhoto(file: File, Id: string): Observable<PostView> {
+
+    //this.headers = this.headers.set( 'Content-Type', 'multipart/form-data;' );
+    // this.headers = this.headers.set('Authorization', getToken('user'));
+    
+    let h = new HttpHeaders({ 'Authorization': getToken('user') });
+    // h = h.set('Content-Type', 'multipart/form-data;');
+    
+    const options = { headers: h };
+    const formData = new FormData();
+
+    formData.append('photo', file);
+    
+    formData.forEach((value, key) => {
+      console.log("Kljucevi" , key, value);
+    });
+
+    return this.http.post<PostView>(this.url + 'api/article/' + Id + '/uploadPhoto', formData, options);    
+  }
+
+  public addAnArticle(data: AddArticle): Observable<PostView> {
+    this.headers = this.headers.set('Authorization', getToken('user'));
+    const options = { headers: this.headers };
+    
+    return this.http.post<PostView>(this.url + "api/article/newArticle", data, options);
+  }
+
   public changeAnArticle(data: EditArticle): Observable<PostView> {
     
     this.headers = this.headers.set('Authorization', getToken('user'));

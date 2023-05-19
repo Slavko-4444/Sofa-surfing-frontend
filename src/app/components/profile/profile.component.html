@@ -35,12 +35,12 @@
 
      <div class="pozivi_metoda row">
         <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-info" (click)="addProfilePost()">New post</button>
-            <button type="button" class="btn btn-warning" style="margin-left: 5px;" (click)="seeProfilePosts()">See posts</button>
+            <button type="button" class="btn btn-info mb-5" (click)="addProfilePost()">New post</button>
+            <button type="button" class="btn btn-warning mb-5" style="margin-left: 5px;" (click)="seeProfilePosts()">See posts</button>
         </div>
 
         <app-user-posts *ngIf="seePosts"></app-user-posts>
-        <app-user-add-post *ngIf="addPost"></app-user-add-post>
+        <app-user-add-post *ngIf="addPost" [Email]="profile.email"></app-user-add-post>
      </div>
 
     </div>

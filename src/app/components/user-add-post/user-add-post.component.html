@@ -1,4 +1,7 @@
-<div class="flex-grow-1 mb-3 okvirGlavni"> 
+<div class="alert alert-success mb-3 mt-5" role="alert" *ngIf="isAdded">
+    Successfully added!
+  </div>
+<div class="flex-grow-1 mb-5 okvirGlavni" *ngIf="!isAdded"> 
     <form [formGroup]="postForm" (ngSubmit)="submitPostForm(postForm.value)">
         <div class="form-group reg-group">
             <label for="nm">Title:</label>
@@ -13,7 +16,7 @@
         <p class="error-message" *ngIf="excerpt?.errors?.['required']">Short info-post is necessary!</p>
         <div class="form-group">
             <label for="fn">Description:</label>
-            <textarea class="form-control" id="fn" rows="3" formControlName="forename"></textarea>
+            <textarea class="form-control" id="fn" rows="3" formControlName="forename" formControlName="description"></textarea>
         </div>
         <p class="error-message" *ngIf="description?.errors?.['required']">Text is required!</p>
 

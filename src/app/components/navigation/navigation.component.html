@@ -5,10 +5,11 @@
       </svg>
     <div class="navbar-collapse justify-content-end">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a class="nav-link" routerLink="/articles">Home</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/articles" [hidden]="!checkAccount()">Home</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/">Profile</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="aboutUs">About us</a></li>
-          <li class="nav-item"><a class="nav-link" [routerLink]="['/login']">Sign in</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['/login']" *ngIf="!checkAccount()">Sign in</a></li>
+          <button type="button" class="btn btn-outline-danger btn-sm mt-2 crvenoDugme" [routerLink]="['/login']"  *ngIf="checkAccount()">Sign out</button>
         </ul>
       </div>
       <div class="navbar-collapse justify-content-end">

@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { getIdentity } from 'src/app/models/LocalStorage/token';
+import { AddArticle } from 'src/app/models/profile/add.article';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 
 @Component({
@@ -10,6 +12,9 @@ import { ProfileService } from 'src/app/services/profile/profile.service';
 export class UserAddPostComponent {
 
   public postForm!: FormGroup;
+  public isAdded:boolean = false;
+  @Input('Email')
+  public emailUser!: string;
   constructor(
     private formBuilder: FormBuilder,
     private profileService: ProfileService
@@ -19,7 +24,7 @@ export class UserAddPostComponent {
       excerpt: ['', Validators.required],
       description: ['', Validators.required],
       status: ['visible', Validators.required],
-      })
+    })
   }
 
 
@@ -37,6 +42,29 @@ export class UserAddPostComponent {
   }
 
   public submitPostForm(data: any) {
-    console.log("sakupljeno",data);
+    // console.log("sakupljeno", data);
+    
+    let newPost: AddArticle = {
+      description: data.description,
+      excerpt: data.excerpt,
+      title: data.title,
+      status: data.status,
+      user_id: String(getIdentity("user")),
+      userEmail: this.emailUser
+    };
+
+    this.isAdded = true;
+    this.profileService.addAnArticle(newPost).subscribe(res=> console.log('res', res));
+
+    setTimeout(() => {
+      this.postForm.patchValue({
+        description: '',
+        title: '',
+        status: '',
+        excerpt: '',
+      })
+
+      this.isAdded = false;
+    }, 3000)
   }
 }

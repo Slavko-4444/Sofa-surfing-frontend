@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { getIdentity } from 'src/app/models/LocalStorage/token';
 
 @Component({
   selector: 'app-navigation',
@@ -6,6 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
+
+  public IsLogined: boolean = false;
+  constructor() {
+    
+  }
+
+  public checkAccount(): boolean {
+    if (getIdentity('user')) {
+      this.IsLogined = true;
+      return this.IsLogined;
+    }
+    
+    this.IsLogined = false;
+    return this.IsLogined;
+  }
 
   ngOnInit(): void {
   }

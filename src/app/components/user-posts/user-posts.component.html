@@ -8,16 +8,26 @@
     </div>
     <div *ngIf="!isloading">
 
+
+        <hr>
         <div class="row" *ngFor="let naslov of posts">
             <div class="row" >
+
                 <div class="shadow p-3 mb-5 bg-white rounded row" >
                     <div class="d-flex justify-content-between">
                         <p> {{naslov.title}} </p>
-                        <p class="text-primary visibility" (click)="ChangeVisibility(naslov._id)"> {{naslov.status}} </p>
+                        <div class="d-flex justify-content-end">
+                            <form [formGroup]="postForm" (ngSubmit)="submitPostForm(postForm.value, naslov._id)">
+                                <input class="form-control form-control-sm" style="height: max-content;" id="formFileSm" type="file" (change)="onFileChange($event)" />
+                                <button type="submit" class="btn btn-outline-danger btn-sm" [disabled]="!postForm.valid">Send photo</button>
+                            </form>
+
+                            <p class="text-primary h5 visibility" (click)="ChangeVisibility(naslov._id)"> {{naslov.status}} </p>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-4 d-flex justify-content-center" style="padding: 0px 0px">
-                            <img [src]="dodajPocetnu(naslov.image_path[0])" class="img-fluid"  alt="Slika 1">
+                            <img [src]="dodajPocetnu(naslov.image_path[naslov.image_path.length-1])" class="img-fluid"  alt="Slika 1">
                         </div>
                         <div class="col-8 d-flex row">
                             <p>{{naslov.excerpt}}</p>

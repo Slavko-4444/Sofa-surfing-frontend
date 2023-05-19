@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription, timeout } from 'rxjs';
 import { getIdentity } from 'src/app/models/LocalStorage/token';
 import { EditArticle } from 'src/app/models/profile/edit.article';
 import { PostView } from 'src/app/models/profile/view.post';
@@ -18,11 +19,52 @@ export class UserPostsComponent implements OnInit, OnDestroy{
   public empty: boolean = true; 
   private connections: Subscription[] = [];
   public isloading: boolean = true;
+  public postForm!: FormGroup;
+  private f!: File;
 
-  constructor(private profileService: ProfileService) {
 
+  constructor(
+    private formBuilder: FormBuilder,
+    private profileService: ProfileService
+  ) {
+
+    this.postForm = this.formBuilder.group({
+      avatar: [null, Validators.required]
+    })
   }
   
+  public onFileChange(event: Event) {
+    let fileList = (event.target as HTMLInputElement).files;
+    if (fileList) {
+      let file = fileList[0];
+      this.f = file;
+      // console.log("file ", file);
+      this.postForm.patchValue({
+        avatar: file
+      });
+    }
+    this.postForm.get('avatar')?.updateValueAndValidity();
+  }
+
+
+  public submitPostForm(data: any, _id: string) {
+
+    this.profileService.addPhoto(this.f, _id).subscribe(
+      res => {
+        window.alert('Successfully uploaded!');
+        setTimeout(() => { 
+          this.ngOnInit();
+        }, 2500);
+        
+      },
+      err => console.log("greska", err)
+    )
+  }
+
+  public get file() {
+    return this.postForm.get('file');
+  }
+
    ngOnDestroy(): void {
     this.connections.forEach(sub => sub.unsubscribe());
    }
