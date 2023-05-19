@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { getIdentity } from 'src/app/models/LocalStorage/token';
 
 @Component({
@@ -9,8 +10,15 @@ import { getIdentity } from 'src/app/models/LocalStorage/token';
 export class NavigationComponent implements OnInit {
 
   public IsLogined: boolean = false;
-  constructor() {
+  constructor(private router: Router) {
     
+  }
+
+  public signOut() {
+
+    localStorage.clear();
+    window.alert('You sign out!');
+    this.router.navigate(['/aboutUs']);
   }
 
   public checkAccount(): boolean {

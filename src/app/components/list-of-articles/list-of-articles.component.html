@@ -1,1 +1,49 @@
-<p>list-of-articles works!</p>
+<div class="okvirProfila">
+
+    <p class="h3 m-5 text-primary">Posts of other users</p>
+    
+    <hr>
+    <div class="spinner-border text-primary" role="status" style="margin-top: 100px; margin-left: 50%;" *ngIf="isloading">
+        <span class="sr-only">Loading...</span>
+    </div>
+    
+    <div class="m-5" *ngIf="!isloading">
+       
+          <br>
+              <h4 id="top" class="text-primary" style="cursor: pointer;  max-width: 90px;" (click)="navigacijaNaTrenutniDeo('bottom')">@Top</h4>
+          
+          <br>
+        <div class="row" *ngFor="let naslov of posts">
+            <div class="row" >
+                
+                <div class="shadow p-3 mb-5 bg-white rounded row ">
+                        <p class="h4 text-info"> {{naslov.title}} </p>
+                        <hr>
+                    <div class="row">
+                        <div class="col-4 d-flex justify-content-center" style="padding: 0px 0px">
+                            <img  [src]="dodajPocetnu(naslov.image_path[naslov.image_path.length-1])" class="img-fluid rounded"  alt="Photo">
+                        </div>
+                        <div class="col-8 d-flex row">
+                            <p>{{naslov.excerpt}}</p>
+                            <p>{{naslov.description}}</p>
+                            <div class="d-flex justify-content-center">
+                                <p>Posted: {{naslov.created_at}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+    <h4 id="bottom" class="text-primary" style="cursor: pointer; max-width: 90px;" (click)="navigacijaNaTrenutniDeo('top')">@Last</h4>
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link"  style="cursor: pointer;" (click)="positionPrevious()">Previous</a></li>
+          <li class="page-item" *ngFor="let element of duzina" style="cursor: pointer;"><a [ngStyle]="{'background-color': pozovi(element)? 'cornflowerblue' : 'white'}" class="page-link" (click)="currentPosition(element)">{{element}}</a></li>
+          <li class="page-item"><a class="page-link"  style="cursor: pointer;" (click)="positionNext()">Next</a></li>
+        </ul>
+      </nav>
+
+</div>
+

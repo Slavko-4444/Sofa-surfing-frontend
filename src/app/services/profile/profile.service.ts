@@ -10,6 +10,7 @@ import { RecivingRefToken } from 'src/app/models/receive/refresh.token';
 import { PostView } from 'src/app/models/profile/view.post';
 import { EditArticle } from 'src/app/models/profile/edit.article';
 import { AddArticle } from 'src/app/models/profile/add.article';
+import { ArticleRange } from 'src/app/models/articles-lists/artilce.range';
 
 @Injectable({
   providedIn: 'root'
@@ -24,23 +25,34 @@ export class ProfileService {
 
   constructor(private http: HttpClient) { }
   
+  public takeLengthOfArticles(): Observable<number> {
+    this.headers = this.headers.set('Authorization', getToken('user'));
+    const options = { headers: this.headers };
+    
+    return this.http.get<number>(this.url + "api/article/NumberOfArticles", options);
+  }
+  
+  public SeeVisiblePosts(data: ArticleRange): Observable<PostView[]>{
+
+    this.headers = this.headers.set('Authorization', getToken('user'));
+    const options = { headers: this.headers };
+    return this.http.post<PostView[]>(this.url + "api/article/Articles/visible", data, options);
+  }
+
   
   public addPhoto(file: File, Id: string): Observable<PostView> {
 
-    //this.headers = this.headers.set( 'Content-Type', 'multipart/form-data;' );
-    // this.headers = this.headers.set('Authorization', getToken('user'));
     
     let h = new HttpHeaders({ 'Authorization': getToken('user') });
-    // h = h.set('Content-Type', 'multipart/form-data;');
     
     const options = { headers: h };
     const formData = new FormData();
 
     formData.append('photo', file);
     
-    formData.forEach((value, key) => {
-      console.log("Kljucevi" , key, value);
-    });
+    // formData.forEach((value, key) => {
+    //   console.log("Kljucevi" , key, value);
+    // });
 
     return this.http.post<PostView>(this.url + 'api/article/' + Id + '/uploadPhoto', formData, options);    
   }
