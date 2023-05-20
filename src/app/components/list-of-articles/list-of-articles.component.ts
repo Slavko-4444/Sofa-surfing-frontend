@@ -1,10 +1,13 @@
-import { Component, ElementRef, NgIterable, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, NgIterable, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ArrayArticle } from 'src/app/models/articles-lists/article.array';
 import { ArticleRange } from 'src/app/models/articles-lists/artilce.range';
+import { SearchDTO } from 'src/app/models/articles-lists/search';
 import { PostView } from 'src/app/models/profile/view.post';
 import { ProfileService } from 'src/app/services/profile/profile.service';
+import { SearchService } from 'src/app/services/search/search.service';
 
 @Component({
   selector: 'app-list-of-articles',
@@ -12,18 +15,53 @@ import { ProfileService } from 'src/app/services/profile/profile.service';
   styleUrls: ['./list-of-articles.component.css']
 })
 
-export class ListOfArticlesComponent implements OnInit, OnDestroy{
+export class ListOfArticlesComponent implements OnInit, OnDestroy {
 
   public isloading: boolean = true;
   public posts: PostView[] = [];
   private connections: Subscription[] = [];
   public duzina!: number[];
   public position: number = 1;
+  public dataSearch!: SearchDTO;
+  public searchForm!: FormGroup;
 
-  constructor(private profileService: ProfileService, private router: Router, private elementRef: ElementRef, private activatedRoute: ActivatedRoute)
-  { }
+
+  constructor(
+    private profileService: ProfileService,
+    private router: Router,
+    private elementRef: ElementRef,
+    private activatedRoute: ActivatedRoute,
+    public searchingService: SearchService,
+    private formBuilder: FormBuilder,
+  )
+  { 
+    this.dataSearch = {
+      keywords: ''
+    }
+    this.searchForm = this.formBuilder.group({
+      keywords: ['', Validators.required],
+    })
+  }
 
 
+  public send(id: string): void {
+    let u = '/article/' + id;
+    console.log("Uso", u);
+    
+    this.router.navigate([u]);
+  }
+  public submitSearchForm(data: any) {
+    
+    this.dataSearch = data;
+    console.log(this.dataSearch);
+    let sub = this.searchingService.SearchPosts(this.dataSearch).subscribe(
+      res => {
+        this.posts = res;
+        this.duzina = Array.from({ length: Math.ceil(res.length/8)}, (element, index) => index + 1);
+      },
+      err => console.log('Error with searching:', err)
+    )
+  }
   
   public pozovi(element: number): boolean {
     if (this.position === element)

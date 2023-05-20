@@ -13,9 +13,24 @@
         </ul>
       </div>
       <div class="navbar-collapse justify-content-end">
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-5" type="search" placeholder="Search" aria-label="Pretraga">
-        </form>
-        <button class="btn btn-outline-success ml-5 my-2 my-sm-0" style="margin-inline: 4px;" type="submit">Submit</button>
+        
+        <div class="d-flex row" style="position: relative;">
+          <form class="form-inline my-2 my-lg-0" [formGroup]="searchForm">
+            <input class="form-control mr-sm-5" type="search" placeholder="Search" aria-label="Pretraga"  formControlName="keywords">
+          </form> 
+          <div style="position: absolute; margin-top: 35px;">
+            <div class="opadajucaLista" *ngIf="keywords?.value != '' ">
+              <p *ngFor="let element of dropDownItems; ; let i = index" style="cursor: pointer; padding: 2px;" (click)="sendInfo(element.title, i)">
+                #{{element.title}}: 
+                {{element.searchField}}
+              </p>
+
+            </div>
+
+          </div> 
+
+        </div>
+
+        <button class="btn btn-outline-success ml-5 my-2 my-sm-0" style="margin-inline: 4px;" type="submit" (click)="submitSearchForm(searchForm.value)">Submit</button>
       </div>
   </nav>

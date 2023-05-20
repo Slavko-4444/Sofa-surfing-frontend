@@ -7,3 +7,12 @@ a {
     max-height: 37px;
     margin-left: 5px;
 }
+
+.opadajucaLista {
+    background-color: white;
+    padding: 5px;
+    margin-top: -2.5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom: 4px solid darkslategray;
+}

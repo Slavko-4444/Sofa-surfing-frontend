@@ -2,9 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription, timeout } from 'rxjs';
 import { getIdentity } from 'src/app/models/LocalStorage/token';
+import { SearchDTO } from 'src/app/models/articles-lists/search';
 import { EditArticle } from 'src/app/models/profile/edit.article';
 import { PostView } from 'src/app/models/profile/view.post';
 import { ProfileService } from 'src/app/services/profile/profile.service';
+import { SearchService } from 'src/app/services/search/search.service';
 
 @Component({
   selector: 'app-user-posts',
@@ -21,11 +23,10 @@ export class UserPostsComponent implements OnInit, OnDestroy{
   public isloading: boolean = true;
   public postForm!: FormGroup;
   private f!: File;
-
-
+  
   constructor(
     private formBuilder: FormBuilder,
-    private profileService: ProfileService
+    private profileService: ProfileService,
   ) {
 
     this.postForm = this.formBuilder.group({

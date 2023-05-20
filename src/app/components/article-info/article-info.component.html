@@ -1,1 +1,24 @@
-<p>article-info works!</p>
+<div class="p-5">
+
+    <p class="h1 text-danger d-flex justify-content-center" >
+        {{post.title}}
+    </p>
+    <br>
+    <hr>
+    <div class="h3 text-primary d-flex justify-content-center">
+        {{post.excerpt}}
+    </div>
+    <br>
+    <div class="d-flex justify-content-center h4">
+        {{post.description}}
+    </div>
+    <br>
+    <hr>
+    <img *ngFor="let img of post.image_path" [src]="dodajPocetnu(img)" class="img-fluid rounded m-3" width="250px" alt="Photo">
+
+    <hr>
+    <br>
+    <div class="d-flex justify-content-center h6">
+        Posted: {{post.created_at}}
+    </div>
+</div>

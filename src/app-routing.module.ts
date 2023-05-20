@@ -7,7 +7,7 @@ import { ProfileComponent } from './app/components/profile/profile.component';
 import { AboutUsComponent } from './app/components/about-us/about-us.component';
 
 const routes: Routes = [
-  { path: 'article/articleId', component: ArticleInfoComponent },
+  { path: 'article/:articleId', component: ArticleInfoComponent },
   { path: 'articles', component: ListOfArticlesComponent },
   { path: 'login', component: LoginRegistrationComponent },
   { path: '', component: ProfileComponent },
