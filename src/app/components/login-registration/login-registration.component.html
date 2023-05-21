@@ -3,7 +3,7 @@
         <div class="col-4 d-flex justify-content-center align-items-center">
             <div >
                 <p class="naslov">SOFASURFING </p>
-                <p class="naslov">Sign in!</p>
+                <p class="d-flex justify-content-center naslov">Sign in!</p>
                 <p class="DR">MADE for STUDENTS!</p>
             </div>
         </div>
@@ -37,7 +37,10 @@
                 <p class="error-message" *ngIf="password?.errors?.['required']">Password is required!</p>
                     <div class="d-flex justify-content-between">
                         <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Submit</button>
-                        <p class="linkDalje" (click)="showRegistration()">Registration</p>
+                        <div class="d-flex">
+                            <p class="linkDalje" (click)="showRegistration()">Registration</p>
+                            <p class="linkDalje" (click)="AdminLogin()">Admin Login</p>
+                        </div>
                     </div>
                 </form>
             </div>

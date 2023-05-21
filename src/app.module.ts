@@ -14,6 +14,8 @@ import { AboutUsComponent } from './app/components/about-us/about-us.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UserPostsComponent } from './app/components/user-posts/user-posts.component';
 import { UserAddPostComponent } from './app/components/user-add-post/user-add-post.component';
+import { AdministratorComponent } from './app/components/administrator/administrator.component';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { UserAddPostComponent } from './app/components/user-add-post/user-add-po
     AboutUsComponent,
     UserPostsComponent,
     UserAddPostComponent,
+    AdministratorComponent,
     
   ],
   imports: [

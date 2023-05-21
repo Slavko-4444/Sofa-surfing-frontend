@@ -3,7 +3,6 @@ import { LoginUserDTO } from 'src/app/models/receive/loginInfo.dto';
 import { Observable, Subscription } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { getRefreshToken, getToken, saveRefreshToken, saveToken } from 'src/app/models/LocalStorage/token';
-import { ApiResponse } from 'src/app/models/api.respones';
 import { TokenRef } from 'src/app/models/receive/reciving.token';
 import { UserInfo } from 'src/app/models/profile/user.info';
 import { RecivingRefToken } from 'src/app/models/receive/refresh.token';
@@ -11,6 +10,7 @@ import { PostView } from 'src/app/models/profile/view.post';
 import { EditArticle } from 'src/app/models/profile/edit.article';
 import { AddArticle } from 'src/app/models/profile/add.article';
 import { ArticleRange } from 'src/app/models/articles-lists/artilce.range';
+import { Registration } from 'src/app/models/administrator/add-user';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +57,7 @@ export class ProfileService {
     return this.http.post<PostView>(this.url + 'api/article/' + Id + '/uploadPhoto', formData, options);    
   }
 
+
   public addAnArticle(data: AddArticle): Observable<PostView> {
     this.headers = this.headers.set('Authorization', getToken('user'));
     const options = { headers: this.headers };
@@ -93,10 +94,10 @@ export class ProfileService {
     method: 'get' | 'post' | 'patch' | 'delete',
     body: any | undefined,
     role: 'user' | 'administrator' = 'user'
-  ): Observable<LoginUserDTO> {
+  ): Observable<LoginUserDTO|any> {
     const options = { headers: this.headers };
 
-    this.userInfo = this.http.post<LoginUserDTO>(this.url + path, body, options);
+    this.userInfo = this.http.post<LoginUserDTO|any>(this.url + path, body, options);
     return this.userInfo;   
   }
 
@@ -108,6 +109,11 @@ export class ProfileService {
     return this.http.post<RecivingRefToken>(this.url + '/auth/user/refresh', data, options);
   }
   
+  public registration(data: Registration): Observable<UserInfo> {
+    const options = { headers: this.headers };
+
+    return this.http.post<UserInfo>(this.url + 'auth/registration', data, options);
+  }
 
 }
 

@@ -5,13 +5,15 @@ import { ListOfArticlesComponent } from './app/components/list-of-articles/list-
 import { ArticleInfoComponent } from './app/components/article-info/article-info.component';
 import { ProfileComponent } from './app/components/profile/profile.component';
 import { AboutUsComponent } from './app/components/about-us/about-us.component';
+import { AdministratorComponent } from './app/components/administrator/administrator.component';
 
 const routes: Routes = [
   { path: 'article/:articleId', component: ArticleInfoComponent },
   { path: 'articles', component: ListOfArticlesComponent },
   { path: 'login', component: LoginRegistrationComponent },
   { path: '', component: ProfileComponent },
-  { path: 'aboutUs', component: AboutUsComponent }
+  { path: 'aboutUs', component: AboutUsComponent },
+  { path: 'administrator', component:  AdministratorComponent },
 
 ];
 

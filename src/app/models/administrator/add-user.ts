@@ -1,7 +1,6 @@
-export interface UserInfo {
-    _id: string;
-    user_id: number;
+export interface Registration {
     email: string;
+    password: string;
     forename: string;
     surname: string;
     phone: string;

@@ -41,9 +41,7 @@ export class UserAddPostComponent {
     return this.postForm.get('status');
   }
 
-  public submitPostForm(data: any) {
-    // console.log("sakupljeno", data);
-    
+  public submitPostForm(data: any) {    
     let newPost: AddArticle = {
       description: data.description,
       excerpt: data.excerpt,

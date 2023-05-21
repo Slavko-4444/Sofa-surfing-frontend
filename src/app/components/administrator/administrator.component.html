@@ -1,0 +1,25 @@
+<h1 class="m-3">Administrator page</h1>
+
+<div class="alert alert-danger" role="alert" *ngIf="!isLoggined; else Ulogovan">
+    You have to login first!
+</div>
+
+<ng-template #Ulogovan>
+    <div class="d-flex flex-column-reverse">
+        <div class="shadow p-3 m-5 bg-white rounded border border-opacity-50" *ngFor="let naslov of users">
+            <div class="col p-3 row">
+                <h4 class="text-danger">{{naslov.surname}} {{naslov.forename}}</h4>
+                <div class="d-flex flex-row justify-content-between">
+                    <p class=" fw-bold">{{naslov.email}}</p>
+                    <div>
+                        <p class="fst-italic">Contact number: {{naslov.phone}}</p>
+                        <div class="d-flex justify-content-end">
+                            <button type=" button" class="btn btn-dark" (click)="DeleteCurrUser(naslov._id, naslov.surname+' '+ naslov.forename)">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</ng-template>

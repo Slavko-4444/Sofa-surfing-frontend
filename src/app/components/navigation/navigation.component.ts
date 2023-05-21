@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { getIdentity, getToken } from 'src/app/models/LocalStorage/token';
 import { DropDown } from 'src/app/models/articles-lists/dropdown';
 import { SearchService } from 'src/app/services/search/search.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-navigation',
@@ -17,7 +18,7 @@ export class NavigationComponent implements OnInit, DoCheck {
   public searchText: string = '';
   public searchForm!: FormGroup;
   public dropDownItems!: DropDown[];
-
+  public adminLoggined: boolean = false;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -27,6 +28,11 @@ export class NavigationComponent implements OnInit, DoCheck {
     })
   }
   ngDoCheck(): void {
+    if (getIdentity('administrator'))
+      this.adminLoggined = true;
+    else
+      this.adminLoggined = false;
+
     let keyws: string = this.searchForm.get('keywords')?.value;
     if ( keyws != '') {
       if (getToken('user') != 'Bearer null') {
@@ -85,16 +91,43 @@ export class NavigationComponent implements OnInit, DoCheck {
   
   
   public signOut() {
-
+    console.log('uso')
     localStorage.clear();
-    window.alert('You sign out!');
+    
+    Swal.fire('Thanks!', 'Successfully signed out!', 'success');
     this.router.navigate(['/aboutUs']);
+
+   
   }
 
+  public checkAdmin(): boolean {
+    if (getIdentity('administrator'))
+      return true;
+    return false;
+  }
   public checkAccount(): boolean {
+    
     if (getIdentity('user')) {
       this.IsLogined = true;
       return this.IsLogined;
+    }
+    else if (getIdentity('administrator')) {
+      this.adminLoggined = true;
+      return this.adminLoggined;
+    }
+    
+    this.IsLogined = false;
+    return this.IsLogined;
+  }
+  public checkAccountA(): boolean {
+    
+    if (getIdentity('user')) {
+      this.IsLogined = true;
+      return this.IsLogined;
+    }
+    else if (getIdentity('administrator')) {
+      this.adminLoggined = true;
+      return false;
     }
     
     this.IsLogined = false;
@@ -102,6 +135,11 @@ export class NavigationComponent implements OnInit, DoCheck {
   }
 
   ngOnInit(): void {
+    if (getIdentity('administrator'))
+      this.adminLoggined = true;
+    else
+      this.adminLoggined = false;
+    
   }
 
 }

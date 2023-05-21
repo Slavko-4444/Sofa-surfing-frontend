@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { getToken } from 'src/app/models/LocalStorage/token';
+import { PostInfo } from 'src/app/models/articles-lists/postInfo';
 import { SearchDTO } from 'src/app/models/articles-lists/search';
 import { PostView } from 'src/app/models/profile/view.post';
 
@@ -18,12 +19,12 @@ export class SearchService {
   constructor(private http: HttpClient) { }
 
 
-  public findArticle(id: string): Observable<PostView> {
+  public findArticle(id: string): Observable<PostInfo> {
     
     this.headers = this.headers.set('Authorization', getToken('user'));
     const options = { headers: this.headers };
 
-    return this.http.get<PostView>(this.url + 'api/article/findArticle/' + id, options);
+    return this.http.get<PostInfo>(this.url + 'api/article/findArticle/' + id, options);
   }
 
   public SearchPosts(data: SearchDTO): Observable<PostView[]> {

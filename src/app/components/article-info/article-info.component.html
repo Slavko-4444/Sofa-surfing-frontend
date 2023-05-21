@@ -14,11 +14,18 @@
     </div>
     <br>
     <hr>
-    <img *ngFor="let img of post.image_path" [src]="dodajPocetnu(img)" class="img-fluid rounded m-3" width="250px" alt="Photo">
+    <img *ngFor="let img of post.image_path" [src]="dodajPocetnu(img)" class="rounded m-3" height="200px" width="250px" alt="Photo">
 
     <hr>
     <br>
     <div class="d-flex justify-content-center h6">
         Posted: {{post.created_at}}
+    </div>
+    <br>
+    <hr>
+    <div class="d-flex justify-content-center">
+        <a>
+            {{uInfo.email}}
+        </a>
     </div>
 </div>

@@ -7,6 +7,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { saveIdentity, saveRefreshToken, saveToken } from 'src/app/models/LocalStorage/token';
 import { Subscription } from 'rxjs';
 import { LoginUserDTO } from 'src/app/models/receive/loginInfo.dto';
+import { adminLoginDTO } from 'src/app/models/administrator/admin-login';
+import { AdminServiceService } from 'src/app/services/admin/admin-service.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login-registration',
@@ -27,7 +30,8 @@ export class LoginRegistrationComponent implements OnDestroy{
     private formBuilder: FormBuilder,
     private profileService: ProfileService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private adminService: AdminServiceService
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -50,11 +54,17 @@ export class LoginRegistrationComponent implements OnDestroy{
 
   public submitForm(data:SendLoginModel) {
     let sub = this.profileService.loginRequest('auth/login/user', 'post', data).subscribe(
-      (res: LoginUserDTO) => {
-        saveToken(res.token, "user");
-        saveRefreshToken(res.refreshToken, "user");
-        saveIdentity(res.identity, 'user');
-        this.router.navigate(['/']);
+      (res) => {
+        if (res.error) {
+          window.alert(res.error);
+
+        } else {
+          saveToken(res.token, "user");
+          saveRefreshToken(res.refreshToken, "user");
+          saveIdentity(res.identity, 'user');
+          Swal.fire('Welcome!', 'Successfully signed in!', 'success');
+          this.router.navigate(['/']);            
+        }
       }
     );
 
@@ -68,8 +78,31 @@ export class LoginRegistrationComponent implements OnDestroy{
     return this.loginForm.get('password');
   }
 
+  private pozovi(data: SendRegistrationModel) {
+    let s = this.profileService.registration(data).subscribe(
+      res => {
+        Swal.fire('Greate!', 'Successfully signed in!', 'success');
+        this.router.navigate(['']);
+      }
+    )
+    this.connections.push(s);
+    
+  }
+
   public submitRegForm(data: SendRegistrationModel) {
-    console.log(data);
+     Swal.fire({
+      title: 'Creating account',
+      text: 'Are you sure, you want to join with new account ?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Dismiss'
+     }).then((result) => {
+      if (result.isConfirmed) 
+        this.pozovi(data);
+    });
+
+
   }
   
   public get Email() {
@@ -87,6 +120,28 @@ export class LoginRegistrationComponent implements OnDestroy{
   public get Phone() {
     return this.registrationForm.get('phone');
   }
+
+  public AdminLogin() {
+    let adminLogin: adminLoginDTO = {
+      username: this.loginForm.get('email')?.value,
+      password: this.loginForm.get('password')?.value
+    }
+    this.adminService.AdminLogin(adminLogin).subscribe(
+      res => {
+        if (res.error) {
+          window.alert(res.error);
+        } else {
+          saveToken(res.token, "administrator");
+          saveIdentity(res.identity, 'administrator');
+          Swal.fire('Welcome!', 'Successfully loggined!', 'success');
+          this.router.navigate(['/administrator']);
+          
+        }
+          
+      }
+    )
+  }
+
 
   showRegistration() {
     this.IsLogin = false;
