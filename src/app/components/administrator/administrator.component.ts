@@ -53,7 +53,7 @@ export class AdministratorComponent implements OnInit, OnDestroy{
       if (result.isConfirmed) {
         this.adminService.deleteSpecUser(_id).subscribe(
           res => {
-            console.log("stiglo", res);
+            console.log("stiglo", res); 
             if (!res.statusCode) {
               Swal.fire('Deleted!', 'Successfully deleted!', 'success');
               this.ngOnInit();
